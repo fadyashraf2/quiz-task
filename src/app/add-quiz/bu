@@ -1,0 +1,53 @@
+import { Component, OnInit, ɵConsole } from '@angular/core';
+import { FormBuilder,FormArray, FormGroup, FormControl } from '@angular/forms';
+
+@Component({
+  selector: 'app-add-quiz',
+  templateUrl: './add-quiz.component.html',
+  styleUrls: ['./add-quiz.component.scss']
+})
+export class AddQuizComponent implements OnInit {
+  addQuizForm :FormGroup;
+
+  constructor() { }
+
+  ngOnInit() {
+    this.addQuizForm = new FormGroup({
+        quizName: new FormControl(''),
+        quizDescr: new FormControl(''),
+        questions: new FormArray([ ])
+        
+      });
+      // console.log(this.addQuizForm.value )
+    
+    
+  }
+  
+  
+  addNewQuestion() {
+    const questionGroup = new FormGroup({
+      question: new FormControl(''),
+      answers :  new FormArray([]),
+      correctAnswerIndex: new FormControl(''),
+    });
+    // const control = new FormControl('');
+    (<FormArray>this.addQuizForm.get('questions')).push(questionGroup)
+    // console.log((<FormArray>questions.get('qestio')))
+    
+  }
+  
+  addAnswer(quest){
+    const ans = new FormControl('');
+    // (<FormArray>quest.get('answers')).push(ans)
+    (<FormArray>this.addQuizForm.get('answers')).push(ans)
+    // console.log((<FormArray>this.addQuizForm.get('answers')))
+  }
+
+
+  onSubmit(){
+    console.log(this.addQuizForm.value )
+    console.log(this.addQuizForm.get('questions') )
+    
+  }
+}
+

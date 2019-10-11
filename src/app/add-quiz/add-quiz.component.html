@@ -1,0 +1,101 @@
+<app-header></app-header>
+
+<form [formGroup]="addQuizForm">
+    <div class="form-group mx-auto shadow-lg p-4 mb-4 bg-light" style="width:40%">
+        <input type="text" formControlName="quizTitle" class="form-control" placeholder="Quiz Title "
+            aria-describedby="helpId" required>
+
+        <div class="alert alert-danger " role="alert" *ngIf="!quizTitle.valid&& isSubmitted ">
+            title is required
+        </div>
+
+    </div>
+
+    <div class="form-group mx-auto shadow-lg p-4 mb-4 bg-light" style="width:40%">
+        <input type="text" formControlName="quizDescr" class="form-control" placeholder="Quiz Description"
+            aria-describedby="helpId">
+    </div>
+
+
+    <div class="form-group mx-auto" style="width:40%" formArrayName="questions">
+        <div *ngFor="let ques of addQuizForm.get('questions').controls; let i = index"
+            class="shadow-lg p-4 mb-4 bg-light  rounded-sm ">
+            <div [formGroupName]="i">
+                <div class="form-group d-flex justify-content-between">
+                    <h5> {{i+1}}-</h5>
+                    <input type="text" placeholder="Question" class="form-control" formControlName="question" required>
+
+                    <button (click)="removeQuestion(i)" class='icon'><i class="fa fa-trash"></i> </button>
+                    <button (click)="addNewQuestion()" class='icon'><i class="fa fa-plus-circle"></i></button>
+                </div>
+                <div class="alert alert-danger mt-0 " role="alert" *ngIf="!ques.controls.question.valid&& isSubmitted ">
+                    question is required
+                </div>
+
+                <!-- <h1>{{}}</h1> -->
+                <div class="form-group  mx-auto container" formArrayName="answers">
+
+                    <div *ngFor="let ans of ques.get('answers').controls; let j = index" class="container "
+                        [formGroupName]="j">
+                        <div class="d-flex justify-content-between">
+
+                            <label [for]="j"></label>
+                            <input class="form-control" type="text" formControlName="answer" placeholder="answer"
+                                required>
+                            <button (click)="removeAnswer(ques)" class='icon'><i class="fa fa-trash"></i></button>
+
+                            <button (click)="addAnswer(ques)" class='icon'><i class="fa fa-plus-circle"></i></button>
+                        </div>
+
+                        <div class="alert alert-danger " role="alert" *ngIf="!ans.controls.answer.valid&& isSubmitted ">
+                            answer is required
+                        </div>
+
+                    </div>
+                </div>
+                <div class="form-group mt-1 container" style="width: 80%">
+                    <label for=""></label>
+                    <label for="">select correct answer</label>
+                    <select class="form-control" formControlName="correctAnswerIndex" required name="correctAnswerIndex"
+                        id="">
+
+                        <optgroup label="correct Answer">
+                            <option *ngFor="let item of ques.get('answers').controls ;let k=index" [value]="k">
+                                {{item.controls.answer.value}}
+                            </option>
+                        </optgroup>
+                    </select>
+                    <div class="d-block alert alert-danger" role="alert"
+                        *ngIf="(!ques.controls.correctAnswerIndex.valid&& isSubmitted )">
+                        please select one correct answer
+                    </div>
+
+                </div>
+                <textarea type="text" placeholder="explanation" class="form-control mt-1 mx-auto "
+                    formControlName="explanation" style="width:85%;">
+                </textarea>
+
+
+            </div>
+
+        </div>
+
+        <br>
+
+        <div class="container d-flex justify-content-md-around">
+
+            <button type="submit" (click)="onSubmit()" class="btn btn-secondary">save and publish later</button>
+            <button type="button" (click)="saveAndPublish()" class="btn btn-info">save and publish</button>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+</form>
+<!-- <h1>{{addQuizForm.value | json}}</h1> -->

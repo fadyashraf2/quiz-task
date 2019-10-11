@@ -1,0 +1,70 @@
+<app-header></app-header>
+
+
+<div class="text-center">
+
+        <h3 *ngIf="backerror">use different username</h3>
+</div>
+<div class="container mt-4" *ngIf="!isCreated">
+        <div class="text-center">
+                <h3 *ngIf="!backerror">Registration Form</h3>
+                <h3 *ngIf="backerror">use different username</h3>
+        </div>
+        <form (ngSubmit)="f.form.valid && onSubmit(f)" #f="ngForm" novalidate class="mx-auto" style="width:30%">
+
+                <div class="form-group">
+                        <label for="exampleInputusername1">Name </label>
+                        <input type="username" name="username" username required class="form-control" ngModel
+                                #username=ngModel id="exampleInputusername1" aria-describedby="usernameHelp"
+                                placeholder="Enter your Name">
+
+
+                        <div class="alert alert-danger" role="alert" *ngIf="!username.valid &&f.submitted">
+                                <div *ngIf="username.errors.required">
+                                        username is required
+                                </div>
+                                <div *ngIf="username.errors.username">username must be a valid username address</div>
+
+                        </div>
+
+                </div>
+                <div class="form-group">
+                        <label for="exampleInputemail">email</label>
+                        <input type="email" name="email" required email class="form-control" ngModel #email=ngModel
+                                id="exampleInputemail" aria-describedby="emailHelp" placeholder="Enter email">
+
+                        <div class="alert alert-danger" role="alert" *ngIf="!email.valid &&f.submitted">
+                                <div *ngIf="email.errors.required">
+                                        email is required
+                                </div>
+                                <div *ngIf="!email.valid">email must be a valid email</div>
+
+                        </div>
+
+                </div>
+                <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input type="password" required name="password" ngModel #password=ngModel class="form-control"
+                                id="exampleInputPassword1" placeholder="Password">
+                        <div class="alert alert-danger" role="alert" *ngIf="!password.valid &&f.submitted">
+                                <div *ngIf="password.errors.required">
+                                        password is required
+                                </div>
+                        </div>
+                </div>
+                
+                <div class="d-flex justify-content-between">
+                        <h6 class="d-inline">
+                                <a class="link" routerLink="/login" routerLinkActive="active">Log In</a>
+                        </h6>
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                </div>
+
+        </form>
+
+</div>
+
+
+<div *ngIf="isCreated">
+        <h2>account will be activated after 2 mins </h2>
+</div>

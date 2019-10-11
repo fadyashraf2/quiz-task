@@ -1,0 +1,36 @@
+<app-header></app-header>
+<div *ngIf="!quizzesExisted" class=" d-flex flex-column ">
+
+    <h2 class="mx-auto">
+        no quizzes to show 
+    </h2>
+    <h3 class="mx-auto"><a [routerLink]="[ '/addQuiz' ]" routerLinkActive="active"> add new quiz</a></h3>
+</div>
+<div *ngIf="quizzesExisted">
+    <table class="table">
+        <thead class="thead-light">
+            <tr>
+                <th>#</th>
+                <th>Quiz Title</th>
+                <th>Quiz Description</th>
+                <th>Edit</th>
+                <th>delete</th>
+                <th>ready for Publish</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of quizzes ; let i =index">
+                <td>{{i+1}}</td>
+                <td>{{item.quizTitle}}</td>
+                <td>{{item.quizDescr}}</td>
+                <td><a routerLink="/edit/{{item._id}}" routerLinkActive="active"><i  class="fa fa-pencil-square-o" style="font-size: 2em"  ></i></a></td>
+                <td><button (click)="deleteOneQuiz(item._id)"><i  class="fa fa-trash" style="font-size: 2em"  ></i></button></td>
+                <td *ngIf="item.IsPublished" ><i class="fa fa-check" style="color: green ;font-size: 2em"></i></td>
+                <td *ngIf="!item.IsPublished" ><i class="fa fa-times"  style="color: red ;font-size: 2em"></i></td>
+                
+                
+            </tr>
+            
+        </tbody>
+    </table>
+</div>
